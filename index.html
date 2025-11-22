@@ -3,76 +3,47 @@
   <meta charset="UTF-8">
   <title>Clicker</title>
   <style>
-    html, body {}
-    body { display:flex; justify-content:center; align-items:center; }
+    html, body { 
+      margin:0; padding:0; width:100%; height:100%; 
+      overflow:hidden; 
+      position:fixed; top:0; left:0; right:0; bottom:0; 
+      display:flex; justify-content:center; align-items:center;
+      background:#62a8ff;
+    }
     #wrapper { text-align:center; padding:40px; transform:scale(1.15); background:rgba(255,255,255,0.5); border-radius:20px; backdrop-filter:blur(5px); }
     button { margin:5px; padding:10px; font-size:16px; border-radius:10px; border:none; cursor:pointer; }
   </style>
 </head>
 <body>
   <div id="wrapper">
-  <h1>Clicker</h1>  <p>Kliknięcia: <span id="clicks">0</span></p>
+  <h1>Clicker</h1>
+  <p>Kliknięcia: <span id="clicks">0</span></p>
   <p>Wartość kliknięcia: <span id="value">1</span></p>
   <p>Cel: <span id="goal">0</span></p>
-  <p>Wygrane: <span id="wins">0</span></p><button id="clickBtn">Kliknij!</button><br>
-
-<button id="upgrade">🍩 Pączek = Upgrade</button> <button id="downgrade">🥊 Złota Rękawica = Downgrade</button> <button id="setGoal">Ustaw Cel</button><br>
-
-<button id="minus25">🌹 Róża = -25</button> <button id="minus250">♥️ Serce = -250</button> <button id="minus1000">🥡 Perfumy = -1000</button> <button id="minus10000">🎉 Konfetti = -10000</button><br>
-
-<button id="reset">🐶 Corgi = Reset</button>
-
-  </div><script>
+  <p>Wygrane: <span id="wins">0</span></p>
+  <button id="clickBtn">Kliknij!</button><br>
+  <button id="upgrade">🍩 Pączek = Upgrade</button>
+  <button id="downgrade">🥊 Złota Rękawica = Downgrade</button>
+  <button id="setGoal">Ustaw Cel</button><br>
+  <button id="minus25">🌹 Róża = -25</button>
+  <button id="minus250">♥️ Serce = -250</button>
+  <button id="minus1000">🥡 Perfumy = -1000</button>
+  <button id="minus10000">🎉 Konfetti = -10000</button><br>
+  <button id="reset">🐶 Corgi = Reset</button>
+  </div>
+<script>
 let clicks = 0;
 let value = 1;
 let goal = 0;
-let wins = 0;
+let wins = 0;function update() { document.getElementById('clicks').innerText = clicks; document.getElementById('value').innerText = value; document.getElementById('goal').innerText = goal; document.getElementById('wins').innerText = wins; }
 
-function update() {
-  document.getElementById('clicks').innerText = clicks;
-  document.getElementById('value').innerText = value;
-  document.getElementById('goal').innerText = goal;
-  document.getElementById('wins').innerText = wins;
-}
+document.getElementById('clickBtn').onclick = () => { clicks += value; if (goal > 0 && clicks >= goal) { wins++; clicks = 0; } update(); };
 
-document.getElementById('clickBtn').onclick = () => {
-  clicks += value;
-  if (goal > 0 && clicks >= goal) {
-    wins++;
-    clicks = 0;
-  }
-  update();
-};
+document.getElementById('upgrade').onclick = () => { value++; update(); }; document.getElementById('downgrade').onclick = () => { if(value>1)value--; update(); }; document.getElementById('setGoal').onclick = () => { const g=parseInt(prompt('Podaj cel:')); if(!isNaN(g)&&g>0)goal=g; update(); };
 
-document.getElementById('upgrade').onclick = () => {
-  value++;
-  update();
-};
+document.getElementById('minus25').onclick = () => { clicks -= 25; update(); }; document.getElementById('minus250').onclick = () => { clicks -= 250; update(); }; document.getElementById('minus1000').onclick = () => { clicks -= 1000; update(); }; document.getElementById('minus10000').onclick = () => { clicks -= 10000; update(); };
 
-document.getElementById('downgrade').onclick = () => {
-  if (value > 1) value--;
-  update();
-};
+document.getElementById('reset').onclick = () => { clicks=0; value=1; goal=0; wins=0; update(); }; update(); </script>
 
-document.getElementById('setGoal').onclick = () => {
-  const g = parseInt(prompt('Podaj cel:'));
-  if (!isNaN(g) && g > 0) goal = g;
-  update();
-};
-
-document.getElementById('minus25').onclick = () => { clicks -= 25; update(); };
-document.getElementById('minus250').onclick = () => { clicks -= 250; update(); };
-document.getElementById('minus1000').onclick = () => { clicks -= 1000; update(); };
-document.getElementById('minus10000').onclick = () => { clicks -= 10000; update(); };
-
-document.getElementById('reset').onclick = () => {
-  clicks = 0;
-  value = 1;
-  goal = 0;
-  wins = 0;
-  update();
-};
-
-update();
-</script></body>
+</body>
 </html>
