@@ -33,6 +33,14 @@
 
     <button id="tapMinus10">500 Tapów = -10</button>
   </div>
+
+  <!-- CHAT -->
+  <div id="chatBox" style="position:absolute; bottom:20px; left:20px; width:300px; height:200px; background:white; border-radius:10px; padding:10px; overflow-y:auto; font-size:14px;"></div>
+
+  <div style="position:absolute; bottom:20px; left:20px; width:300px; display:flex; gap:5px;">
+    <input id="chatInput" type="text" placeholder="Napisz..." style="flex:1; padding:5px; border-radius:8px; border:1px solid #ccc;">
+    <button id="chatSend">Wyślij</button>
+  </div>
 <script>
 let clicks = 0;
 let value = 1;
@@ -53,6 +61,24 @@ document.getElementById('clickBtn').onclick = () => {
     clicks = 0;
   }
   update();
+
+// CHAT
+const chatBox = document.getElementById('chatBox');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+
+function sendChat() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  const msg = document.createElement('div');
+  msg.textContent = text;
+  chatBox.appendChild(msg);
+  chatInput.value = '';
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+chatSend.onclick = sendChat;
+chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendChat(); });
 
 document.getElementById('tapMinus10').onclick = () => {
   if (clicks >= 500) clicks -= 10;
